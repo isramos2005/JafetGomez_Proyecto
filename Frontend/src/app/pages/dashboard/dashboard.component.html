@@ -1,0 +1,68 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/dashboard">Principal</a>
+        </li>
+        <li class="breadcrumb-item active">Dashboard</li>
+      </ol>
+    </nav>
+  </div>
+  <section class="section dashboard">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <!--header-->
+          <div class="card-header" style="padding: 0; position: relative">
+            <div
+              class="banner"
+              style="
+                background-image: url('/assets/img/BANNERS-VR-FINAL/MAPA.png');
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                background-size: contain;
+                background-position: center;
+                height: 0;
+                padding-bottom: 25%; /* Ajusta este valor según la relación de aspecto de tu imagen */
+              "
+            ></div>
+            <div
+              class="overlay"
+              style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"
+            ></div>
+          </div>
+          <!--body-->
+          <div class="card-body" style="margin-top: 20px">
+            <div class="d-flex flex-wrap blue-border">
+              <div class="col-md-6" *ngFor="let item of areas; let i = index">
+                <div class="card-img-overlay-mod" style="position: relative;">
+                  <img [src]="'assets/img/MAPA/' + item.area_Imagen" class="img-thumbnail-space img-fluid" [style.zIndex]="1" />
+                  <div class="badges-container" style="position: absolute; top: 0; left: 0; margin-top: 120px; margin-left: 200px;">
+                    <span class="badge"
+                          style="margin-left: 55px; float: left; margin-top: 45px;"
+                          *ngFor="let atraccion of atraccionesPorArea[item.area_ID]"
+                          (click)="detailAtraccion(atraccion)"
+
+                          [style.position]="'relative'"
+                          [style.zIndex]="2"                          
+                          
+                          >
+                          <div class="tooltip-container">
+                            <img [src]="atraccion.atra_Imagen" class="custom-image">
+                            <div class="tooltip">
+                              <div class="tooltip-content">{{ atraccion.atra_Nombre }}</div>
+                            </div>
+                          </div>                                                    
+                    </span>
+                  </div>
+                </div> 
+              </div>
+            </div>
+          </div>                                 
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

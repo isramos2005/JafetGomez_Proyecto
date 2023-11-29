@@ -18,8 +18,6 @@ export class HeaderComponent implements OnInit {
   }
   sidebarToggle()
   {
-
-    //toggle sidebar function
     this.document.body.classList.toggle('toggle-sidebar');
   }
 
@@ -28,7 +26,6 @@ export class HeaderComponent implements OnInit {
   }
 
   Log_Out(){
-    localStorage.clear()
-    window.location.href = '/'; 
+    this.router.navigate(['pages-login'])
   }
 }

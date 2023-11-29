@@ -11,11 +11,21 @@ import { Usuarios } from '../Models/Usuarios';
 })
 export class AcceService {
 
+  private contadorSesiones = 0;
   constructor(
       private http: HttpClient,
       private apiService: ApiService,
+
     ) { }
 
+    getContadorSesiones(): number {
+      return this.contadorSesiones;
+    };
+
+    incrementarContadorSesiones(): void {
+      this.contadorSesiones++;
+    };
+    
   Url                   =  "Roles/Listado";
   UrlGetUsuarios        =  "Usuarios/Listado";
   UrlInsert             =  "Roles/Insertar"

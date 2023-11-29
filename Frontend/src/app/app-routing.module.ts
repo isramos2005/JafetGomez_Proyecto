@@ -97,6 +97,9 @@ import { FilasListadoComponent } from './Filas/filas-listado/filas-listado.compo
 import { TemporizadoresListadoComponent } from './Filas/temporizadores-listado/temporizadores-listado.component';
 
 import { ReporteComponent } from './reporte/reporte.component';
+
+import { ProductosListadoComponent } from './Productos/productos-listado/productos-listado.component';
+
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'alerts', component: AlertsComponent },
@@ -145,6 +148,7 @@ const routes: Routes = [
   { path: 'listcargos', component: ListcargosComponent},
   {path: 'createcargos', component: CreatecargosComponent},
   {path: 'editarcargos', component: EditarcargosComponent},
+  { path: 'Productos/Listado', component: ProductosListadoComponent },
 
   //Golosinas
   { path: 'listgolosinas', component: ListgolosinasComponent},

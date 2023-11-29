@@ -21,8 +21,9 @@ import { HistorialVisitantesAtraccion, filterChartData } from '../Models/Histori
 import { Ticket } from '../Models/Tikectks';
 import { FullTicktesCliente } from '../Models/FullTicketsCliente';
 import { Filas } from '../Models/Filas';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { temporizadores } from '../Models/Temporizadores';
+import { Productos } from '../Models/Productos';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +55,7 @@ export class ParqServicesService {
     return this.http.get<Cargos>(this.apiService.apiUrl + 'Cargo/Find/'+ idcargo)
   }
 
+  
   // servicios de golosinas //
   getGolosinas(){
     return this.http.get<Golosinas[]>(this.apiService.apiUrl + 'Golosinas/Listado');
@@ -289,4 +291,83 @@ export class ParqServicesService {
     
       return this.http.delete<Filas[]>(url);
     }
+
+
+    getProductos(): Observable<any[]> {
+      var listado = localStorage.getItem('listadoProductos');
+    
+      if (listado) {
+        const productos: Productos[] = JSON.parse(listado);
+        console.log(productos);
+        return of(productos);
+      } else {
+
+        return of([]);
+      }
+    }
+    
+  
+    createProducto(createProducto: Productos): Observable<any> {
+      // Agregar createProducto al localStorage
+      const listadoProductos = JSON.parse(localStorage.getItem('listadoProductos') || '[]');
+      listadoProductos.push(createProducto);
+      localStorage.setItem('listadoProductos', JSON.stringify(listadoProductos));
+      
+      return new Observable(observer => {
+        const response = { code: 200, message: 'Registro Agregado Exitosamente', data: listadoProductos };
+        observer.next(response);
+        observer.complete();
+      });
+    };
+  
+    updateProducto(UpdateProducto: Productos): Observable<any> {
+      const listadoProductos: Productos[] = JSON.parse(localStorage.getItem('listadoProductos') || '[]');
+      const index = listadoProductos.findIndex(producto => producto.Id === UpdateProducto.Id);
+    
+      if (index !== -1) {
+        listadoProductos.splice(index, 1);
+    
+        listadoProductos.push(UpdateProducto);
+        localStorage.setItem('listadoProductos', JSON.stringify(listadoProductos));
+    
+        const response = { code: 200, message: 'Registro Actualizado Exitosamente', data: listadoProductos };
+    
+        return new Observable(observer => {
+          observer.next(response);
+          observer.complete();
+        });
+      } else {
+        const response = { code: 404, message: 'No se encontró el producto para actualizar', data: null };
+    
+        return new Observable(observer => {
+          observer.error(response);
+        });
+      }
+    }
+    
+  
+    deleteProducto(DeleteProducto: Productos) : Observable<any> {
+      const listadoProductos: Productos[] = JSON.parse(localStorage.getItem('listadoProductos') || '[]');
+      const index = listadoProductos.findIndex(producto => producto.Id === DeleteProducto.Id);
+    
+      if (index !== -1) {
+        listadoProductos.splice(index, 1);
+    
+        localStorage.setItem('listadoProductos', JSON.stringify(listadoProductos));
+    
+        const response = { code: 200, message: 'Registro Eliminado Exitosamente', data: listadoProductos };
+    
+        return new Observable(observer => {
+          observer.next(response);
+          observer.complete();
+        });
+      } else {
+        const response = { code: 404, message: 'No se encontró el producto para Eliminar', data: null };
+    
+        return new Observable(observer => {
+          observer.error(response);
+        });
+      }
+    }
+    
 }

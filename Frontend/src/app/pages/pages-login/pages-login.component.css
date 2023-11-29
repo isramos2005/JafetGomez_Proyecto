@@ -6,7 +6,7 @@
    border: none;
    border-bottom: 1px solid white;
    color: white;
-   max-width: 316px;
+   max-width: 616px;
 }
 
 .custom-input:focus {
@@ -132,8 +132,8 @@
 
 .ov-btn-grow-u {
   background: #fff; /* color de fondo */
-  color: #e0de55; /* color de fuente */
-  border: 2px solid #e0de55; /* tamaño y color de borde */
+  color: #9d55e0; /* color de fuente */
+  border: 2px solid #9d55e0; /* tamaño y color de borde */
   border-radius: 3px; /* redondear bordes */
   position: relative;
   z-index: 1;
@@ -147,7 +147,7 @@
 
 .ov-btn-grow-u::after {
   content: "";
-  background: #e0de55; /* color de fondo hover */
+  background: #9d55e0; /* color de fondo hover */
   position: absolute;
   z-index: -1;
   padding: 0; /* ajusta el padding a 0 */
@@ -382,7 +382,7 @@
 
 .pulse {
   --color: #ffb3de;
-  --hover: #ffc5aa;
+  --hover: #9d55e0;
 }
 
 .close {

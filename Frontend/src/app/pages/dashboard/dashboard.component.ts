@@ -4,6 +4,7 @@ import { ParqServicesService } from 'src/app/ParqServices/parq-services.service'
 import { Router } from '@angular/router';
 import { Atracciones } from 'src/app/Models/Atracciones';
 import { ToastUtils } from 'src/app/Utilities/ToastUtils';
+import { Productos } from 'src/app/Models/Productos';
 
 @Component({
   selector: 'app-dashboard',

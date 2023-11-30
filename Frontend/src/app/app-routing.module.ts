@@ -99,6 +99,8 @@ import { TemporizadoresListadoComponent } from './Filas/temporizadores-listado/t
 import { ReporteComponent } from './reporte/reporte.component';
 
 import { ProductosListadoComponent } from './Productos/productos-listado/productos-listado.component';
+import { ClientesListadoComponent } from './Clientes/clientes-listado/clientes-listado.component';
+import { FacturacionListadoComponent } from './Facturacion/facturacion-listado/facturacion-listado.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -148,7 +150,6 @@ const routes: Routes = [
   { path: 'listcargos', component: ListcargosComponent},
   {path: 'createcargos', component: CreatecargosComponent},
   {path: 'editarcargos', component: EditarcargosComponent},
-  { path: 'Productos/Listado', component: ProductosListadoComponent },
 
   //Golosinas
   { path: 'listgolosinas', component: ListgolosinasComponent},
@@ -193,6 +194,11 @@ const routes: Routes = [
 
   {path: 'grafica', component: GraficaComponent},
   {path: 'reporte', component: ReporteComponent},
+
+  { path: 'Productos/Listado', component: ProductosListadoComponent },
+  { path: 'Clientes/Listado', component: ClientesListadoComponent },
+  { path: 'Facturacion/Listado', component: FacturacionListadoComponent },
+
 
 ];
 

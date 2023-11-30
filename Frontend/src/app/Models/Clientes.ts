@@ -15,4 +15,9 @@ export class Clientes{
     clie_FechaModificacion: any;
     empl_crea: any;
     empl_Modifica: any;
+
+    Id:any;
+    Nombre:any;
+    RTN:any;
+    Direccion:any;
 }

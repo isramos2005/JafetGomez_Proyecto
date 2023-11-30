@@ -3,6 +3,8 @@ import { AcceService } from 'src/app/Service/acce.service';
 import { Router } from '@angular/router';
 import { ToastUtils } from 'src/app/Utilities/ToastUtils';
 import { Productos } from 'src/app/Models/Productos';
+import { Clientes } from 'src/app/Models/Clientes';
+import { Cliente } from 'src/app/Models/Cliente';
 
 
 @Component({
@@ -54,7 +56,16 @@ export class PagesLoginComponent implements OnInit {
           Id: 3
         },
       ];
-  
+      const clientes: Cliente[] = [
+        {
+          Id: 1,
+          Nombre: 'Isaac Ramos',
+          Direccion:'Barrio Cabañas',
+          RTN:'0501200601755'
+        },
+      ];
+      
+      localStorage.setItem('listadoClientes', JSON.stringify(clientes));
       localStorage.setItem('listadoProductos', JSON.stringify(productos));
     }
   }

@@ -24,6 +24,7 @@ import { Filas } from '../Models/Filas';
 import { Observable, of } from 'rxjs';
 import { temporizadores } from '../Models/Temporizadores';
 import { Productos } from '../Models/Productos';
+import { Cliente } from '../Models/Cliente';
 
 @Injectable({
   providedIn: 'root'
@@ -370,4 +371,81 @@ export class ParqServicesService {
       }
     }
     
+
+    getCliente(): Observable<any[]> {
+      var listado = localStorage.getItem('listadoClientes');
+    
+      if (listado) {
+        const cliente: Cliente[] = JSON.parse(listado);
+       
+        return of(cliente);
+      } else {
+
+        return of([]);
+      }
+    }
+    
+  
+    createCliente(createCliente: Cliente): Observable<any> {
+
+      const listadoClientes = JSON.parse(localStorage.getItem('listadoClientes') || '[]');
+      listadoClientes.push(createCliente);
+      localStorage.setItem('listadoClientes', JSON.stringify(listadoClientes));
+      
+      return new Observable(observer => {
+        const response = { code: 200, message: 'Registro Agregado Exitosamente', data: listadoClientes };
+        observer.next(response);
+        observer.complete();
+      });
+    };
+  
+    updateCliente(UpdateCliente: Cliente): Observable<any> {
+      const listadoClientes: Cliente[] = JSON.parse(localStorage.getItem('listadoClientes') || '[]');
+      const index = listadoClientes.findIndex(Cliente => Cliente.Id === UpdateCliente.Id);
+    
+      if (index !== -1) {
+        listadoClientes.splice(index, 1);
+    
+        listadoClientes.push(UpdateCliente);
+        localStorage.setItem('listadoClientes', JSON.stringify(listadoClientes));
+    
+        const response = { code: 200, message: 'Registro Actualizado Exitosamente', data: listadoClientes };
+    
+        return new Observable(observer => {
+          observer.next(response);
+          observer.complete();
+        });
+      } else {
+        const response = { code: 404, message: 'No se encontró el producto para actualizar', data: null };
+    
+        return new Observable(observer => {
+          observer.error(response);
+        });
+      }
+    }
+    
+  
+    deleteCliente(DeleteCliente: Cliente) : Observable<any> {
+      const listadoClientes: Cliente[] = JSON.parse(localStorage.getItem('listadoProductos') || '[]');
+      const index = listadoClientes.findIndex(Cliente => Cliente.Id === DeleteCliente.Id);
+    
+      if (index !== -1) {
+        listadoClientes.splice(index, 1);
+    
+        localStorage.setItem('listadoClientes', JSON.stringify(listadoClientes));
+    
+        const response = { code: 200, message: 'Registro Eliminado Exitosamente', data: listadoClientes };
+    
+        return new Observable(observer => {
+          observer.next(response);
+          observer.complete();
+        });
+      } else {
+        const response = { code: 404, message: 'No se encontró el producto para Eliminar', data: null };
+    
+        return new Observable(observer => {
+          observer.error(response);
+        });
+      }
+    }
 }

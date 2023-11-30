@@ -100,6 +100,8 @@ import { FilasListadoComponent } from './Filas/filas-listado/filas-listado.compo
 import { TemporizadoresListadoComponent } from './Filas/temporizadores-listado/temporizadores-listado.component';
 import { ReporteComponent } from './reporte/reporte.component';
 import { ProductosListadoComponent } from './Productos/productos-listado/productos-listado.component';
+import { ClientesListadoComponent } from './Clientes/clientes-listado/clientes-listado.component';
+import { FacturacionListadoComponent } from './Facturacion/facturacion-listado/facturacion-listado.component';
 
 @NgModule({
   declarations: [
@@ -177,7 +179,9 @@ import { ProductosListadoComponent } from './Productos/productos-listado/product
     FilasListadoComponent,
     TemporizadoresListadoComponent,
     ReporteComponent,
-    ProductosListadoComponent
+    ProductosListadoComponent,
+    ClientesListadoComponent,
+    FacturacionListadoComponent
   ],
   imports: [
     BrowserModule,

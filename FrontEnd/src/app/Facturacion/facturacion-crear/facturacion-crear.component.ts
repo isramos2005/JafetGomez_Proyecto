@@ -53,8 +53,18 @@ export class FacturacionCrearComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.Token();
     this.getProductos();
     this.getClientes();
+  }
+
+  Token(){
+    const Token = localStorage.getItem('TOKEN');
+
+    if (Token != 'Logueado') {
+      this.router.navigate(['pages-login']);
+      return;
+    }
   }
 
   getProductos() {

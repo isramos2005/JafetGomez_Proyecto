@@ -3,7 +3,6 @@ import { AcceService } from 'src/app/Service/acce.service';
 import { Router } from '@angular/router';
 import { ToastUtils } from 'src/app/Utilities/ToastUtils';
 import { Productos } from 'src/app/Models/Productos';
-import { Clientes } from 'src/app/Models/Clientes';
 import { Cliente } from 'src/app/Models/Cliente';
 import { Facturas } from 'src/app/Models/Facturas';
 
@@ -109,6 +108,7 @@ export class PagesLoginComponent implements OnInit {
       localStorage.setItem('listadoClientes', JSON.stringify(clientes));
       localStorage.setItem('listadoProductos', JSON.stringify(productos));
       localStorage.setItem('listadoFacturas', JSON.stringify(facturas));
+      localStorage.setItem('TOKEN', "Logueado");
 
     }
   }

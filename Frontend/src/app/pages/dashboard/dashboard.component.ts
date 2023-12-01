@@ -20,10 +20,19 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.Token();
     this.Grafico();
     window.addEventListener('resize', this.checkZoomLevel.bind(this));
   }
 
+  Token(){
+    const Token = localStorage.getItem('TOKEN');
+
+    if (Token == 'NoLogueado') {
+      this.router.navigate(['pages-login']);
+      return;
+    }
+  }
   checkZoomLevel() {
     var zoomLevel = Math.round(window.devicePixelRatio * 100);
     if (zoomLevel < 90) {

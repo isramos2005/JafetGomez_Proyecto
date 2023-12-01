@@ -39,9 +39,18 @@ export class FacturacionListadoComponent {
   ) { }
 
   ngOnInit(): void {
-
+    this.Token();
     this.getFacturas();
     this.showModalD = false;
+  }
+
+  Token(){
+    const Token = localStorage.getItem('TOKEN');
+
+    if (Token != 'Logueado') {
+      this.router.navigate(['pages-login']);
+      return;
+    }
   }
 
   getFacturas() {

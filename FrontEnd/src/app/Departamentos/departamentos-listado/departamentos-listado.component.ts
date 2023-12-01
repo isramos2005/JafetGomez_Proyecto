@@ -1,20 +1,20 @@
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
-import { Cliente } from 'src/app/Models/Cliente';
+import { Departamento } from 'src/app/Models/Departamento';
 import { ParqServicesService } from 'src/app/ParqServices/parq-services.service';
 import { ToastUtils } from 'src/app/Utilities/ToastUtils';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
-  selector: 'app-clientes-listado',
-  templateUrl: './clientes-listado.component.html',
-  styleUrls: ['./clientes-listado.component.css']
+  selector: 'app-departamentos-listado',
+  templateUrl: './departamentos-listado.component.html',
+  styleUrls: ['./departamentos-listado.component.css']
 })
-export class ClientesListadoComponent {
-  Cliente!: Cliente[];
-  updateCliente: Cliente = new Cliente(); 
-  createCliente: Cliente = new Cliente();
-  deleteCliente: Cliente = new Cliente();
+export class DepartamentosListadoComponent {
+  Departamento!: Departamento[];
+  updateDepartamento: Departamento = new Departamento(); 
+  createDepartamento: Departamento = new Departamento();
+  deleteDepartamento: Departamento = new Departamento();
   Id: any;
   showModal=false;
   showModalU=false;
@@ -26,12 +26,12 @@ export class ClientesListadoComponent {
 
   SoloIcono = false;
 
-  Cliente_Create_Requerido = false;
-  RTN_Create_Requerido = false;
+  Departamento_Create_Requerido = false;
+  Id_Create_Requerido = false;
   Direccion_Create_Requerido = false;
 
-  Cliente_Update_Requerido = false;
-  RTN_Update_Requerido = false;
+  Departamento_Update_Requerido = false;
+  Id_Update_Requerido = false;
   Direccion_Update_Requerido = false;
 
   constructor(
@@ -44,7 +44,7 @@ export class ClientesListadoComponent {
 
   ngOnInit(): void {
     this.Token();
-    this.getCliente();
+    this.getDepartamento();
     this.showModal=false;
     this.showModalU=false;
     this.showModalD=false;
@@ -63,23 +63,22 @@ export class ClientesListadoComponent {
       return;
     }
   }
-  getCliente(){
-    this.service.getCliente().subscribe(data => {
+
+  getDepartamento(){
+    this.service.getDepartamentosAPI().subscribe(data => {
       console.log(data);
-      this.Cliente = data;
+      this.Departamento = data;
     });
   }
 
-  filtrarCliente(): Cliente[] {
+  filtrarDepartamento(): Departamento[] {
     const filtroLowerCase = this.filtro.toLowerCase();
   
-    return this.Cliente.filter(Cliente => {
-      const nombreValido = Cliente.Nombre.toLowerCase().includes(filtroLowerCase);
-      const idValido = Cliente.Id.toString().includes(this.filtro);
-      const rtnvalido = Cliente.RTN.toString().includes(this.filtro);
-      const DireccionValido = Cliente.Direccion.toString().includes(this.filtro);
-  
-      return nombreValido || idValido || rtnvalido || DireccionValido;
+    return this.Departamento.filter(Departamento => {
+      const nombreValido = Departamento.dept_Id.toLowerCase().includes(filtroLowerCase);
+      const idValido = Departamento.dept_Descripcion.toString().includes(this.filtro);
+
+      return nombreValido || idValido;
     });
   };
 
@@ -115,22 +114,21 @@ closeCreateModal(): void {
 
 
 clearCreateModal(){
-  this.Cliente_Create_Requerido = false;
-  this.RTN_Create_Requerido = false;
+  this.Departamento_Create_Requerido = false;
+  this.Id_Create_Requerido = false;
   this.Direccion_Create_Requerido = false;
 
 
-  this.createCliente.Nombre = '';
-  this.createCliente.RTN = '';
-  this.createCliente.Direccion = '';
+  this.createDepartamento.dept_Descripcion = '';
+  this.createDepartamento.dept_Id = '';
 
 }
 
 confirmarCreate() {
   const errorsArray: boolean[] = [
-    this.validateClienteCreate(),
+    this.validateDepartamentoCreate(),
     this.validateDireccionCreate(),
-    this.validateRTNCreate(),
+    this.validateIdCreate(),
   ];
 
   const errors = errorsArray.filter(error => error).length;
@@ -142,23 +140,16 @@ confirmarCreate() {
       this.router.navigate(['pages-login']);
       return;
     }
-
-    const listadoCliente: Cliente[] = JSON.parse(localStorage.getItem('listadoClientes') || '[]');
-
-    const maxId = Math.max(...listadoCliente.map(cliente => cliente.Id));
-
-    const nuevoId = maxId + 1;
-    this.createCliente.Id = nuevoId;
-
-    this.service.createCliente(this.createCliente).subscribe((response: any) => {
+    this.service.insertDepartamentoAPI(this.createDepartamento).subscribe((response: any) => {
+      console.log(response)
       if (response.code === 200) {
         ToastUtils.showSuccessToast(response.message);
         this.closeCreateModal();
-        this.getCliente();
+        this.getDepartamento();
       } else if (response.code === 409) {
         ToastUtils.showWarningToast(response.message);
       } else {
-        ToastUtils.showErrorToast(response.message);
+        ToastUtils.showErrorToast("Ha ocurrido un error inesperado");
       }
     });
   } else {
@@ -171,18 +162,16 @@ confirmarCreate() {
 
 //#region MODAL UPDATE
   clearUpdateModal(){
-    this.Cliente_Update_Requerido = false;
-    this.RTN_Update_Requerido = false;
+    this.Departamento_Update_Requerido = false;
+    this.Id_Update_Requerido = false;
     this.Direccion_Update_Requerido = false;
   }
 
-  onUpdate(Cliente: Cliente){
+  onUpdate(Departamento: Departamento){
     
-    this.updateCliente.Id = Cliente.Id;
-    this.updateCliente.Nombre = Cliente.Nombre;
-    this.updateCliente.RTN = Cliente.RTN;
-    this.updateCliente.Direccion = Cliente.Direccion;
-
+    this.updateDepartamento.dept_Id = Departamento.dept_Id;
+    this.updateDepartamento.dept_Descripcion = Departamento.dept_Descripcion;
+ 
     this.openUpdateModal();
   }
 
@@ -190,9 +179,8 @@ confirmarCreate() {
     var errors = 0;
     const errorsArray: boolean[] = [];
 
-    errorsArray[0] = this.validateClienteUpdate();
-    errorsArray[1] = this.validateDireccionUpdate();
-    errorsArray[2] = this.validateRTNUpdate();
+    errorsArray[0] = this.validateDepartamentoUpdate();
+    errorsArray[1] = this.validateIdUpdate();
 
     for (let i = 0; i < errorsArray.length; i++) {
       if (errorsArray[i] == true) {
@@ -207,10 +195,10 @@ confirmarCreate() {
       if (usua_ID == null) {
         this.router.navigate(['pages-login']);
       }      
-        this.service.updateCliente(this.updateCliente).subscribe((response : any) =>{
+        this.service.editDepartamentoAPI(this.updateDepartamento).subscribe((response : any) =>{
           if(response.code == 200){
             ToastUtils.showSuccessToast(response.message);
-            this.getCliente();
+            this.getDepartamento();
             this.closeUpdateModal();
 
           }else if (response.code == 409){
@@ -248,8 +236,8 @@ confirmarCreate() {
 
 
 //#region MODAL DELETE 
-  onDelete(id: number){
-    this.deleteCliente.Id = id;
+  onDelete(id: string){
+    this.deleteDepartamento.dept_Id = id;
     this.openDeleteModal();
   }
 
@@ -273,10 +261,10 @@ confirmarCreate() {
   
 
   confirmDelete(){
-    this.service.deleteCliente(this.deleteCliente).subscribe((response : any) =>{
+    this.service.deleteDepartamentoAPI(this.deleteDepartamento).subscribe((response : any) =>{
       if (response.code == 200) {
         ToastUtils.showSuccessToast(response.message);
-        this.getCliente();
+        this.getDepartamento();
         this.closeDeleteModal();
       }else if(response.code == 409){
         ToastUtils.showWarningToast(response.message);
@@ -291,28 +279,28 @@ confirmarCreate() {
 
 //#region  VALIDACIONES CREAR 
    
-    validateClienteCreate(){
-      if (!this.createCliente.Nombre) {
-        this.Cliente_Create_Requerido = true;
+    validateDepartamentoCreate(){
+      if (!this.createDepartamento.dept_Descripcion) {
+        this.Departamento_Create_Requerido = true;
         return true;
       }else{
-        this.Cliente_Create_Requerido = false;
+        this.Departamento_Create_Requerido = false;
         return false;
       }
     }
 
-    validateRTNCreate(){
-      if (!this.createCliente.Nombre) {
-        this.RTN_Create_Requerido = true;
+    validateIdCreate(){
+      if (!this.createDepartamento.dept_Descripcion) {
+        this.Id_Create_Requerido = true;
         return true;
       }else{
-        this.RTN_Create_Requerido = false;
+        this.Id_Create_Requerido = false;
         return false;
       }
     }
 
     validateDireccionCreate(){
-      if (!this.createCliente.Nombre) {
+      if (!this.createDepartamento.dept_Descripcion) {
         this.Direccion_Create_Requerido = true;
         return true;
       }else{
@@ -321,74 +309,55 @@ confirmarCreate() {
       }
     }
    
-    clearClienteCreateError(){
-      if(this.createCliente.Nombre){
-        this.Cliente_Create_Requerido = false;
+    clearDepartamentoCreateError(){
+      if(this.createDepartamento.dept_Descripcion){
+        this.Departamento_Create_Requerido = false;
       }
     };
 
-    clearRTNCreateError(){
-      if (this.createCliente.RTN) {
-        this.RTN_Create_Requerido = false;
+    clearIdCreateError(){
+      if (this.createDepartamento.dept_Id) {
+        this.Id_Create_Requerido = false;
       }
     }
 
-    clearDireccionCreateError(){
-      if(this.createCliente.Direccion){
-        this.Direccion_Create_Requerido = false;
-      }
-    }
     //#endregion
 
 
   //#region VALIDACIONES ACTUALIZAR
-    validateClienteUpdate(){
-      if (!this.updateCliente.Nombre) {
-        this.Cliente_Update_Requerido = true;
+    validateDepartamentoUpdate(){
+      if (!this.updateDepartamento.dept_Descripcion) {
+        this.Departamento_Update_Requerido = true;
         return true;
       }else{
-        this.Cliente_Update_Requerido = false;
+        this.Departamento_Update_Requerido = false;
         return false;
       }
     }
 
-    validateRTNUpdate(){
-      if (!this.updateCliente.Nombre) {
-        this.RTN_Update_Requerido = true;
+    validateIdUpdate(){
+      if (!this.updateDepartamento.dept_Descripcion) {
+        this.Id_Update_Requerido = true;
         return true;
       }else{
-        this.RTN_Update_Requerido = false;
+        this.Id_Update_Requerido = false;
         return false;
       }
     }
 
-    validateDireccionUpdate(){
-      if (!this.updateCliente.Nombre) {
-        this.Direccion_Update_Requerido = true;
-        return true;
-      }else{
-        this.Direccion_Update_Requerido = false;
-        return false;
-      }
-    }
    
-    clearClienteUpdateError(){
-      if(this.updateCliente.Nombre){
-        this.Cliente_Update_Requerido = false;
+    clearDepartamentoUpdateError(){
+      if(this.updateDepartamento.dept_Descripcion){
+        this.Departamento_Update_Requerido = false;
       }
     }
 
-    clearRTNUpdateError(){
-      if (this.updateCliente.RTN) {
-        this.RTN_Update_Requerido = false;
+    clearIdUpdateError(){
+      if (this.updateDepartamento.dept_Id) {
+        this.Id_Update_Requerido = false;
       }
     }
 
-    clearDireccionUpdateError(){
-      if(this.updateCliente.Direccion){
-        this.Direccion_Update_Requerido = false;
-      }
-    }
 
   //#endregion VALIDACIONES ACTUALIZAR 
 

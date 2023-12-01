@@ -11,21 +11,27 @@ export class HeaderComponent implements OnInit {
   usua_Usuario = localStorage.getItem("usua_Usuario");
   nombreEmpleado = localStorage.getItem("nombreEmpleado");
   usua_Img = localStorage.getItem("usua_Img");
-  
-  constructor(@Inject(DOCUMENT) private document: Document, private router:Router) { }
+
+  constructor(@Inject(DOCUMENT) private document: Document, private router: Router) { }
 
   ngOnInit(): void {
   }
-  sidebarToggle()
-  {
+  sidebarToggle() {
     this.document.body.classList.toggle('toggle-sidebar');
   }
 
-  DashBoard(){
+  DashBoard() {
     this.router.navigate(['dashboard'])
   }
 
-  Log_Out(){
-    this.router.navigate(['pages-login'])
+  Log_Out() {
+    localStorage.setItem('TOKEN', 'NoLogueado');
+  
+    // Reemplazar la entrada actual en el historial con la página de inicio después de cerrar sesión
+    this.router.navigate(['pages-login']).then(() => {
+      history.replaceState({}, '', this.router.createUrlTree(['pages-login']).toString());
+    });
   }
+  
+  
 }

@@ -39,56 +39,14 @@ import { PagesLoginComponent } from './pages/pages-login/pages-login.component';
 import { PagesError404Component } from './pages/pages-error404/pages-error404.component';
 import { PagesBlankComponent } from './pages/pages-blank/pages-blank.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-
-import { ListcargosComponent } from './Cargos/listcargos/listcargos.component';
-import { ListgolosinasComponent } from './Golosinas/listgolosinas/listgolosinas.component';
-import { ListAtraccionesComponent } from './Atracciones/list/list.component';
-import { ListInsumosQuioscoComponent } from './InsumosQuiosco/list/list.component';
-import { ListClientesRegistradosComponent } from './ClientesRegistrados/list/list.component';
-
-
-import { ListempleadosComponent } from './Empleados/listempleados/listempleados.component';
-import { EditarempleadosComponent } from './Empleados/editarempleados/editarempleados.component';
-
-import { CreatecargosComponent } from './Cargos/createcargos/createcargos.component';
-import { EditarcargosComponent } from './Cargos/editarcargos/editarcargos.component'
-import { IndexComponent } from './Roles/index/index.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { CreateAtraccionesComponent } from './Atracciones/create/create.component';
-import { TabsComponent } from '../app/tabs/tabs.component';
-import { ParqServicesService } from './ParqServices/parq-services.service';
-import { CrearempleadosComponent } from './Empleados/crearempleados/crearempleados.component';
-import { EditAtraccionesComponent } from './Atracciones/edit/edit.component';
-  
+
 
 import { NgbAlertModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgIf } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { LoginComponent } from './login/login.component';
 import { AgGridModule } from 'ag-grid-angular';
-import { ListarquioscosComponent } from './Quioscos/listarquioscos/listarquioscos.component';
-
-import { DetallesempleadosComponent } from './Empleados/detallesempleados/detallesempleados.component';
-import { ListticketsComponent } from './Tickets/listtickets/listtickets.component';
-import { CreateticketsComponent } from './Tickets/createtickets/createtickets.component';
-import { ListticketsclienteComponent } from './TicketsCliente/listticketscliente/listticketscliente.component';
-import { CreateticketsclienteComponent } from './TicketsCliente/createticketscliente/createticketscliente.component';
-
-import { DetalleQuioscoComponent } from './Quioscos/detalle/detalle.component';
-import { EditQuioscoComponent } from './Quioscos/edit/edit.component';
-import { CreateQuioscoComponent } from './Quioscos/create/create.component';
-
-import { VentasCrearComponent } from './VentasQuioscoDetalle/create/create.component';
-
-import { VentasListComponent } from './VentasQuioscoDetalle/list/list.component';
-
-
-import { UsuariosComponent } from './usuarios/usuarios.component';
-
-import { PagesLoginCComponent } from './pages/pages-login-c/pages-login-c.component';
-import { VentasDetalleComponent } from './VentasQuioscoDetalle/detalle/detalle.component';
-import { AtraccionesDetailComponent } from './Atracciones/detail/detail.component';
-import { GraficaComponent } from './grafica/grafica.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MapComponent } from './map/map.component';
 
@@ -96,20 +54,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 
-import { FilasListadoComponent } from './Filas/filas-listado/filas-listado.component';
-import { TemporizadoresListadoComponent } from './Filas/temporizadores-listado/temporizadores-listado.component';
-import { ReporteComponent } from './reporte/reporte.component';
 import { ProductosListadoComponent } from './Productos/productos-listado/productos-listado.component';
 import { ClientesListadoComponent } from './Clientes/clientes-listado/clientes-listado.component';
 import { FacturacionListadoComponent } from './Facturacion/facturacion-listado/facturacion-listado.component';
 import { FacturacionCrearComponent } from './Facturacion/facturacion-crear/facturacion-crear.component';
-import { FacturacionEditarComponent } from './Facturacion/facturacion-editar/facturacion-editar.component';
+import { DepartamentosListadoComponent } from './Departamentos/departamentos-listado/departamentos-listado.component';
+import { ParqServicesService } from './ParqServices/parq-services.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    IndexComponent,
-    TabsComponent,
     HeaderComponent,
     FooterComponent,
     SidebarComponent,
@@ -123,7 +77,6 @@ import { FacturacionEditarComponent } from './Facturacion/facturacion-editar/fac
     CarouselComponent,
     ListGroupComponent,
     ModalComponent,
-    TabsComponent,
     PaginationComponent,
     ProgressComponent,
     SpinnersComponent,
@@ -145,47 +98,16 @@ import { FacturacionEditarComponent } from './Facturacion/facturacion-editar/fac
     PagesLoginComponent,
     PagesError404Component,
     PagesBlankComponent,
-    ListcargosComponent,
-    ListgolosinasComponent,
-    ListAtraccionesComponent,
-    ListClientesRegistradosComponent,
-    ListInsumosQuioscoComponent,
-
-    ListempleadosComponent,
-    CreatecargosComponent,
-    EditarcargosComponent,
-    CreateAtraccionesComponent,
+   
     LoginComponent,
-    UsuariosComponent,
-    CrearempleadosComponent,
-    EditAtraccionesComponent,
     LoginComponent,
-    EditarempleadosComponent,
-    ListarquioscosComponent,
-    DetalleQuioscoComponent,
-    EditQuioscoComponent,
-    CreateQuioscoComponent,
-    VentasListComponent,
-    VentasCrearComponent,
-    VentasDetalleComponent,
 
-    DetallesempleadosComponent,
-    PagesLoginCComponent,
-    ListticketsComponent,
-    CreateticketsComponent,
-    ListticketsclienteComponent,
-    CreateticketsclienteComponent,
-    AtraccionesDetailComponent,
-    GraficaComponent,
     MapComponent,
-    FilasListadoComponent,
-    TemporizadoresListadoComponent,
-    ReporteComponent,
     ProductosListadoComponent,
     ClientesListadoComponent,
     FacturacionListadoComponent,
     FacturacionCrearComponent,
-    FacturacionEditarComponent
+    DepartamentosListadoComponent
   ],
   imports: [
     BrowserModule,
@@ -193,7 +115,7 @@ import { FacturacionEditarComponent } from './Facturacion/facturacion-editar/fac
     HttpClientModule,
     FormsModule,
     RouterModule,
-    NgxPaginationModule,
+   NgxPaginationModule,
     NgbNavModule,
     NgIf,
     NgbAlertModule,

@@ -51,7 +51,8 @@ export class ProductosListadoComponent {
   ) { }
 
   ngOnInit(): void {
-  
+    this.Token();
+
     this.getProductos();
     this.createProducto.Precio = 0;
     this.showModal=false;
@@ -61,6 +62,15 @@ export class ProductosListadoComponent {
     .subscribe(result => {
       this.SoloIcono = result.matches;
     });
+  }
+  
+  Token(){
+    const Token = localStorage.getItem('TOKEN');
+
+    if (Token != 'Logueado') {
+      this.router.navigate(['pages-login']);
+      return;
+    }
   }
   
   getProductos(){

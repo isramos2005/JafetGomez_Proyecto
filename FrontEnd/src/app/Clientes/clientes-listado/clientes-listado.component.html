@@ -26,14 +26,16 @@
                         <div class="overlay" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"></div>
                     </div>
                     <div class="row ms-1 mt-3 mb-2 col-12">
-                        <button (click)="openCreateModal()" class="ov-btn-grow-primary col-2" style="height: 2.4rem;">
+                        <button (click)="openCreateModal()" class="ov-btn-grow-primary col-12 col-md-2 col-sm-12 mt-2 "
+                            style="height: 2.4rem;">
                             <i class="fas fa-plus-circle mr-1"></i> <label for="" class="ms-2">Nuevo</label>
                         </button>
 
-                        <div class="search-bar col-6">
+                        <div class="search-bar col-12 col-md-6 col-sm-12 mt-2">
                             <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="filtro" />
                         </div>
-                        <div class="col-4">
+
+                        <div class="col-12 col-md-4 col-sm-12 mt-2">
                             <div class="input-group" style="height: 2.4rem;">
                                 <label style="margin-top: 0.5rem; margin-right: 0.5rem; font-weight: bold  ;">Registros
                                     por página:</label>
@@ -48,9 +50,9 @@
 
                     </div>
                     <div style="margin-left: 10px; margin-right: 10px; margin-top: 20px">
-                      
-                        <table class="table">
-                            <thead>
+
+                        <table class="table  table-borderless">
+                            <thead style="background-color: #7d5fd0; border: none;" class="text-light">
                                 <tr>
                                     <th>Id</th>
                                     <th>Nombre</th>
@@ -72,15 +74,23 @@
                                     <td>{{ item.RTN }}</td>
                                     <td>{{ item.Direccion }}</td>
                                     <td>
-                                        <button (click)="onUpdate(item)" class="ov-btn-grow-u"
-                                            style="margin-left: 10px; height: 2.5rem;">
-                                            <i class="bi bi-pen-fill"></i> Editar
+                                        <!-- Mostrar solo el icono en pantallas pequeñas -->
+                                        <button (click)="onUpdate(item)" *ngIf="!SoloIcono" class="ov-btn-grow-u btn-sm" style="margin-left: 10px; height: 2.5rem;">
+                                          <i class="bi bi-pen-fill"></i> Editar
                                         </button>
-                                        <button (click)="onDelete(item.Id)" class="ov-btn-grow-d"
-                                            style="margin-left: 10px; height: 2.5rem;">
-                                            <i class="bi bi-trash-fill"></i> Eliminar
+                                        <button (click)="onDelete(item.Id)" *ngIf="!SoloIcono" class="ov-btn-grow-d btn-sm" style="margin-left: 10px; height: 2.5rem;">
+                                          <i class="bi bi-trash-fill"></i> Eliminar
                                         </button>
-                                    </td>
+                                      
+                                        <!-- Mostrar solo el icono en pantallas pequeñas -->
+                                        <button (click)="onUpdate(item)" *ngIf="SoloIcono" class="ov-btn-grow-u btn-sm mt-2" style="margin-left: 10px; height: 3rem;">
+                                          <i class="bi bi-pen-fill"></i>
+                                        </button>
+                                        <button (click)="onDelete(item.Id)" *ngIf="SoloIcono" class="ov-btn-grow-d btn-sm mt-2" style="margin-left: 10px; height: 3rem;">
+                                          <i class="bi bi-trash-fill"></i>
+                                        </button>
+                                      </td>
+                                      
                                 </tr>
                             </tbody>
                         </table>
@@ -136,8 +146,7 @@
                                 <span class="input-group-text"><i class="bi bi-person-fill"
                                         style="color: rgb(43, 137, 226)"></i></span>
                                 <input [(ngModel)]="createCliente.RTN" type="text" class="form-control" id="RTN_Create"
-                                    placeholder="RTN" (input)="clearRTNCreateError()" pattern="[0-9]+"
-                                    min="1" />
+                                    placeholder="RTN" (input)="clearRTNCreateError()" pattern="[0-9]+" min="1" />
                             </div>
                         </div>
 
@@ -185,7 +194,7 @@
             <!-- Modal Body -->
             <div class="modal-body" style="text-align: center">
                 <div class="row" style="text-align: center; margin-top: 20px">
-                    
+
                     <div class="col-md-6">
                         <div class="col-md-12">
                             <i class="bi bi-exclamation-circle-fill" style="color: orange; margin-right: 10px"
@@ -205,10 +214,9 @@
                             <div class="input-group" style="height: 3rem">
                                 <span class="input-group-text"><i class="bi bi-person-fill"
                                         style="color: rgb(43, 137, 226)"></i></span>
-                                <input [(ngModel)]="updateCliente.RTN" id="RTN_Edit" placeholder="RTN"
-                                    type="number" class="form-control" id="Precio" placeholder="RTN"
-                                    (input)="clearRTNUpdateError()" pattern="[0-9]+" min="1"
-                               />
+                                <input [(ngModel)]="updateCliente.RTN" id="RTN_Edit" placeholder="RTN" type="number"
+                                    class="form-control" id="Precio" placeholder="RTN" (input)="clearRTNUpdateError()"
+                                    pattern="[0-9]+" min="1" />
                             </div>
                         </div>
 
@@ -225,7 +233,7 @@
                                     id="Direccion_Edit" placeholder="Dirección" (input)="clearDireccionUpdateError()" />
                             </div>
                         </div>
-                   
+
 
                     </div>
                 </div>

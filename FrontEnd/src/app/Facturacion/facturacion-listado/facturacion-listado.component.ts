@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
-import { Cliente } from 'src/app/Models/Cliente';
+import { DetalleFactura, Facturas } from 'src/app/Models/Facturas';
 import { ParqServicesService } from 'src/app/ParqServices/parq-services.service';
 import { ImgbbService } from 'src/app/Service_IMG/imgbb-service.service';
 import { ToastUtils } from 'src/app/Utilities/ToastUtils';
@@ -11,25 +11,23 @@ import { ToastUtils } from 'src/app/Utilities/ToastUtils';
   styleUrls: ['./facturacion-listado.component.css']
 })
 export class FacturacionListadoComponent {
-  Cliente!: Cliente[];
-  updateCliente: Cliente = new Cliente();
-  createCliente: Cliente = new Cliente();
-  deleteCliente: Cliente = new Cliente();
+  Factura!: Facturas[];
+  deleteFactura: Facturas = new Facturas();
   Id: any;
-  showModal = false;
-  showModalU = false;
   showModalD = false;
   filtro: string = '';
   p: number = 1;
   selectedPageSize = 10;
   pageSizeOptions: number[] = [10, 20, 50];
+  expandedItemId: number | null = null;
+  items: any[] = [];
 
 
-  Cliente_Create_Requerido = false;
+  Factura_Create_Requerido = false;
   RTN_Create_Requerido = false;
   Direccion_Create_Requerido = false;
 
-  Cliente_Update_Requerido = false;
+  Factura_Update_Requerido = false;
   RTN_Update_Requerido = false;
   Direccion_Update_Requerido = false;
 
@@ -42,44 +40,59 @@ export class FacturacionListadoComponent {
 
   ngOnInit(): void {
 
-    this.getCliente();
-    this.showModal = false;
-    this.showModalU = false;
+    this.getFacturas();
     this.showModalD = false;
   }
 
-  getCliente() {
-    this.service.getCliente().subscribe(data => {
+  getFacturas() {
+    this.service.getFacturas().subscribe(data => {
       console.log(data);
-      this.Cliente = data;
+      this.Factura = data;
     });
   }
 
-  filtrarCliente(): Cliente[] {
+  get detallesFiltrados(): DetalleFactura[] {
+    const facturaSeleccionada = this.Factura.find(factura => factura.Id === this.expandedItemId);
+    return facturaSeleccionada ? facturaSeleccionada.Detalles : [];
+  }
+
+get subtotal(): number {
+  return this.detallesFiltrados.reduce((total, detalle) => total + detalle.Total, 0);
+}
+
+get isv(): number {
+  const porcentajeISV = 15; // Ejemplo: 15%
+  return (this.subtotal * porcentajeISV) / 100;
+}
+
+get total(): number {
+  return this.subtotal + this.isv;
+}
+
+
+  filtrarFacturas(): Facturas[] {
     const filtroLowerCase = this.filtro.toLowerCase();
 
-    return this.Cliente.filter(Cliente => {
-      const nombreValido = Cliente.Nombre.toLowerCase().includes(filtroLowerCase);
-      const idValido = Cliente.Id.toString().includes(this.filtro);
-      const rtnvalido = Cliente.RTN.toString().includes(this.filtro);
-      const DireccionValido = Cliente.Direccion.toString().includes(this.filtro);
-      return nombreValido || idValido || rtnvalido || DireccionValido;
+    return this.Factura.filter(Factura => {
+      const nombreValido = Factura.Cliente.toLowerCase().includes(filtroLowerCase);
+      const idValido = Factura.Id.toString().includes(this.filtro);
+      const rtnvalido = Factura.RTN.toString().includes(this.filtro);
+      return nombreValido || idValido || rtnvalido;
     });
   };
 
   RedirectCreate() {
-    //    this.router.navigate(['/Facturacion/Crear']);
-
+    this.router.navigate(['/Facturacion/Crear']);
   }
 
   //#region UPDATE
 
-  onUpdate(Cliente: Cliente) {
+  onUpdate(Factura: Facturas) {
 
-    this.updateCliente.Id = Cliente.Id;
-    this.updateCliente.Nombre = Cliente.Nombre;
-    this.updateCliente.RTN = Cliente.RTN;
-    this.updateCliente.Direccion = Cliente.Direccion;
+    //this.updateFactura.Id = Factura.Id;
+    //this.updateFactura.Nombre = Factura.Nombre;
+    //this.updateFactura.RTN = Factura.RTN;
+    //this.updateFactura.Direccion = Factura.Direccion;
     //    this.router.navigate(['/Facturacion/Crear']);
 
   }
@@ -87,7 +100,7 @@ export class FacturacionListadoComponent {
 
   //#region MODAL DELETE 
   onDelete(id: number) {
-    this.deleteCliente.Id = id;
+    this.deleteFactura.Id = id;
     this.openDeleteModal();
   }
 
@@ -111,10 +124,10 @@ export class FacturacionListadoComponent {
 
 
   confirmDelete() {
-    this.service.deleteCliente(this.deleteCliente).subscribe((response: any) => {
+    this.service.deleteFactura(this.deleteFactura).subscribe((response: any) => {
       if (response.code == 200) {
         ToastUtils.showSuccessToast(response.message);
-        this.getCliente();
+        this.getFacturas();
         this.closeDeleteModal();
       } else if (response.code == 409) {
         ToastUtils.showWarningToast(response.message);
@@ -125,6 +138,12 @@ export class FacturacionListadoComponent {
   }
 
   //#endregion MODAL DELETE
-
+  toggleDetails(item: any): void {
+    if (this.expandedItemId === item.Id) {
+      this.expandedItemId = null;
+    } else {
+      this.expandedItemId = item.Id;
+    }
+  }
 
 }

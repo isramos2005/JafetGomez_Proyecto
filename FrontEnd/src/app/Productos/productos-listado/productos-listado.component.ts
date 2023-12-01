@@ -4,6 +4,7 @@ import { Productos } from 'src/app/Models/Productos';
 import { ParqServicesService } from 'src/app/ParqServices/parq-services.service';
 import { ImgbbService } from 'src/app/Service_IMG/imgbb-service.service';
 import { ToastUtils } from 'src/app/Utilities/ToastUtils';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-productos-listado',
@@ -24,6 +25,7 @@ export class ProductosListadoComponent {
   p: number = 1;
   selectedPageSize = 3;
   pageSizeOptions: number[] = [3, 6, 9, 12]; // Opciones de tamaño de página
+  SoloIcono = false;
 
 
   Producto_Create_Requerido = false;
@@ -45,6 +47,7 @@ export class ProductosListadoComponent {
     private renderer2: Renderer2,
     private imgbbService: ImgbbService,
     private router: Router,
+    private breakpointObserver: BreakpointObserver
   ) { }
 
   ngOnInit(): void {
@@ -54,6 +57,10 @@ export class ProductosListadoComponent {
     this.showModal=false;
     this.showModalU=false;
     this.showModalD=false;
+    this.breakpointObserver.observe([Breakpoints.XSmall])
+    .subscribe(result => {
+      this.SoloIcono = result.matches;
+    });
   }
   
   getProductos(){

@@ -3,6 +3,6 @@ export class Productos{
     Existencias!: number;
     Precio!: number;
     Total!: number;
-    Imagen!: string;
+    Imagen!: string;    
     Id!:number;
 }

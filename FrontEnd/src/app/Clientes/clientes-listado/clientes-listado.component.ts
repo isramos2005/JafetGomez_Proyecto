@@ -4,6 +4,7 @@ import { Cliente } from 'src/app/Models/Cliente';
 import { ParqServicesService } from 'src/app/ParqServices/parq-services.service';
 import { ImgbbService } from 'src/app/Service_IMG/imgbb-service.service';
 import { ToastUtils } from 'src/app/Utilities/ToastUtils';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-clientes-listado',
@@ -24,6 +25,7 @@ export class ClientesListadoComponent {
   selectedPageSize = 10;
   pageSizeOptions: number[] = [10, 20, 50];
 
+  SoloIcono = false;
 
   Cliente_Create_Requerido = false;
   RTN_Create_Requerido = false;
@@ -38,6 +40,7 @@ export class ClientesListadoComponent {
     private elementRef: ElementRef,
     private renderer2: Renderer2,
     private router: Router,
+    private breakpointObserver: BreakpointObserver
   ) { }
 
   ngOnInit(): void {
@@ -46,6 +49,11 @@ export class ClientesListadoComponent {
     this.showModal=false;
     this.showModalU=false;
     this.showModalD=false;
+    this.breakpointObserver.observe([Breakpoints.XSmall])
+    .subscribe(result => {
+      this.SoloIcono = result.matches;
+    });
+    
   }
   
   getCliente(){

@@ -5,6 +5,7 @@ import { ToastUtils } from 'src/app/Utilities/ToastUtils';
 import { Productos } from 'src/app/Models/Productos';
 import { Clientes } from 'src/app/Models/Clientes';
 import { Cliente } from 'src/app/Models/Cliente';
+import { Facturas } from 'src/app/Models/Facturas';
 
 
 @Component({
@@ -17,16 +18,16 @@ export class PagesLoginComponent implements OnInit {
   username = "";
   password = "";
   validacion = "";
-  
+
   constructor(private service: AcceService, private router: Router, private elementRef: ElementRef,) { }
 
   ngOnInit(): void {
     this.Contador();
   }
 
-  
+
   Contador() {
-    var inicio ; 
+    var inicio;
     inicio = parseInt(localStorage.getItem('contadorSesiones') || '0');
     console.log(inicio);
     if (inicio === 1) {
@@ -60,16 +61,58 @@ export class PagesLoginComponent implements OnInit {
         {
           Id: 1,
           Nombre: 'Isaac Ramos',
-          Direccion:'Barrio Cabañas',
-          RTN:'0501200601755'
+          Direccion: 'Barrio Cabañas',
+          RTN: '0501200601755'
         },
       ];
-      
+      const facturas: Facturas[] = [
+        {
+          Id: 1,
+          ClienteId: 1,
+          Cliente: 'Isaac Ramos',
+          RTN: '05012006017551',
+          Fecha: '11/30/2023',
+          MetodoPago: 'Contado',
+          Detalles: [{
+            Id: 1,
+            ProductoId: 3,
+            PrecioUnitario: 0,
+            Producto: 'HeadSet KDA Logitech',
+            Cantidad: '2',
+            Imagen: 'https://i.ibb.co/tzGyMxf/image.png',
+            Existencias: 5,
+            Total: 100
+          }]
+          
+        },
+
+        {
+          Id: 1,
+          ClienteId: 1,
+          Cliente: 'Alessia Medina',
+          RTN: '05012006017551',
+          Fecha: '11/30/2023',
+          MetodoPago: 'Crédito',
+          Detalles: [{
+            Id: 1,
+            ProductoId: 3,
+            PrecioUnitario: 0,
+            Producto: 'HeadSet KDA Logitech',
+            Cantidad: '6',
+            Imagen: 'https://i.ibb.co/tzGyMxf/image.png',
+            Existencias: 5,
+            Total: 100
+          }]
+          
+        },
+      ];
       localStorage.setItem('listadoClientes', JSON.stringify(clientes));
       localStorage.setItem('listadoProductos', JSON.stringify(productos));
+      localStorage.setItem('listadoFacturas', JSON.stringify(facturas));
+
     }
   }
-  
+
   Login() {
     if (this.username == "" || this.password == "") {
       ToastUtils.showWarningToast("Complete los campos para Iniciar Sesión");
@@ -79,16 +122,16 @@ export class PagesLoginComponent implements OnInit {
     if (this.username == "Admin" && this.password == "Admin123") {
       ToastUtils.showInfoToast(`Bienvenido Jafet Gomez`);
 
-      localStorage.setItem("usua_ID","1");
-      localStorage.setItem("usua_Usuario",this.username);
-      localStorage.setItem("nombreEmpleado","Jafet Gomez");
-      localStorage.setItem("usua_Img","https://cdn-icons-png.flaticon.com/512/6073/6073873.png");
+      localStorage.setItem("usua_ID", "1");
+      localStorage.setItem("usua_Usuario", this.username);
+      localStorage.setItem("nombreEmpleado", "Jafet Gomez");
+      localStorage.setItem("usua_Img", "https://cdn-icons-png.flaticon.com/512/6073/6073873.png");
 
       this.service.incrementarContadorSesiones();
       const contadorSesiones = this.service.getContadorSesiones();
       localStorage.setItem('contadorSesiones', contadorSesiones.toString());
 
-      
+
 
 
       this.router.navigate(['/dashboard']);

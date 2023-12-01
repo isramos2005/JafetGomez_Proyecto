@@ -80,6 +80,43 @@
 }
 
 
+
+  /* info button */
+  .info-btn-grow {
+    background: #fff;
+    color: rgb(95, 90, 238);;
+    border: 2px solid rgb(95, 90, 238);;
+    border-radius: 3px;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    display: inline-block;
+  }
+  
+  .info-btn-grow:hover {
+    color: #fff;
+  }
+  
+  .info-btn-grow::after {
+    content: "";
+    background: rgb(95, 90, 238);
+    position: absolute;
+    z-index: -1;
+    padding: 0;
+    display: block;
+    left: -50%;
+    right: -50%;
+    top: -50%;
+    bottom: -50%;  
+    transform: skewX(-45deg) scale(0, 1);
+    transition: all 0.3s ease;
+  }
+  
+  .info-btn-grow:hover::after {
+    transition: all 0.3s ease-out;
+    transform: skewX(-45deg) scale(1, 1);
+  }
+
 /* insert button */
 .ov-btn-grow-in {
   background: #fff;
@@ -245,4 +282,22 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.scrollable-table {
+  overflow-x: auto;
+  max-width: 100%;
 }

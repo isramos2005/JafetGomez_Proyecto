@@ -26,15 +26,16 @@
                         <div class="overlay" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"></div>
                     </div>
                     <div class="row ms-1 mt-3 mb-2 col-12">
-                        <button (click)="RedirectCreate()" class="ov-btn-grow-primary col-2" style="height: 2.4rem;">
+                        <button (click)="RedirectCreate()" class="ov-btn-grow-primary col-12 col-md-2 col-sm-12 mt-2 "
+                            style="height: 2.4rem;">
                             <i class="fas fa-plus-circle mr-1"></i> <label for="" class="ms-2">Nuevo</label>
                         </button>
 
-                        <div class="search-bar col-6">
+                        <div class="search-bar col-12 col-md-6 col-sm-12 mt-2">
                             <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="filtro" />
                         </div>
-                        <div class="col-4">
-                            <div class="input-group" style="height: 2.4rem;">
+                        <div class="col-12 col-md-4 col-sm-12 mt-2">
+                            <div class="input-group col-12 col-md-4 col-sm-12 mt-2" style="height: 2.4rem;">
                                 <label style="margin-top: 0.5rem; margin-right: 0.5rem; font-weight: bold  ;">Registros
                                     por página:</label>
                                 <span class="input-group-text"><i class="bi bi-filter-square-fill"
@@ -47,47 +48,86 @@
                         </div>
 
                     </div>
-                    <div style="margin-left: 10px; margin-right: 10px; margin-top: 20px">
-                      
-                        <table class="table">
-                            <thead>
+                    <div style=" margin-top: 20px" class="col-12 col-md-12 col-sm-12 ">
+
+                        <table class="table table-borderless">
+                            <thead style="background-color: #7d5fd0; border: none;" class="text-light">
                                 <tr>
+                                    <th></th>
                                     <th>Id</th>
-                                    <th>Nombre</th>
+                                    <th>Cliente</th>
                                     <th>RTN</th>
-                                    <th>Dirección</th>
-                                    <th>Acciones</th>
+                                    <th>Metodo de Pago</th>
+                                    <th>Fecha</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr
-                                    *ngFor="let item of filtrarCliente() | paginate: { itemsPerPage: selectedPageSize, currentPage: p }">
-                                    <td>{{ item.Id }}</td>
+                                    *ngFor="let item of filtrarFacturas() | paginate: { itemsPerPage: selectedPageSize, currentPage: p }">
                                     <td>
-                                        <span [ngClass]="{'truncate-text': item.Nombre.length > 15}">
-                                            {{ item.Nombre }}
-                                        </span>
+                                        <button (click)="toggleDetails(item)" class="info-btn-grow">
+                                            <i
+                                                [class]="expandedItemId === item.Id ? 'fas fa-minus-circle' : 'fas fa-plus-circle'"></i>
+                                        </button>
                                     </td>
-
+                                    <td>{{ item.Id }}</td>
+                                    <td>{{ item.Cliente }}</td>
                                     <td>{{ item.RTN }}</td>
-                                    <td>{{ item.Direccion }}</td>
-                                    <td>
-                                        <button (click)="onUpdate(item)" class="ov-btn-grow-u"
-                                            style="margin-left: 10px; height: 2.5rem;">
-                                            <i class="bi bi-pen-fill"></i> Editar
-                                        </button>
-                                        <button (click)="onDelete(item.Id)" class="ov-btn-grow-d"
-                                            style="margin-left: 10px; height: 2.5rem;">
-                                            <i class="bi bi-trash-fill"></i> Eliminar
-                                        </button>
+                                    <td>{{ item.MetodoPago }}</td>
+                                    <td>{{ item.Fecha }}</td>
+
+                                <tr *ngIf="expandedItemId !== null" [ngClass]="{'fade-in': expandedItemId !== null}">
+                                    <td colspan="12">
+
+                                        <table class="table table-hover table-sm  table-borderless">
+                                            <thead style="background-color: #7d5fd0; border: none;" class="text-light">
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Producto</th>
+                                                    <th> </th>
+                                                    <th>Cantidad</th>
+                                                    <th>Precio Unitario</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let detalle of detallesFiltrados; let i = index">
+                                                    <td>{{ i + 1 }}</td>
+                                                    <td>{{ detalle.Producto }}</td>
+                                                    <td style="align-items: center; align-content: center;">
+                                                        <img [src]="detalle.Imagen" alt="" class="img-fluid" [style.max-height.px]="50">
+
+                                                    </td>
+
+                                                    <td>{{ detalle.Cantidad }}</td>
+                                                    <td>{{ detalle.PrecioUnitario | currency:'HNL':'symbol':'1.2-2' }}
+                                                    </td>
+                                                    <td>{{ detalle.Total | currency:'HNL':'symbol':'1.2-2' }}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot style="border-top: 1px solid #7d5fd0;">
+                                                <td>SUBTOTAL</td>
+                                                <td>{{ subtotal | currency:'HNL':'symbol':'1.2-2' }}</td>
+
+                                                <td>ISV</td>
+                                                <td>{{ isv | currency:'HNL':'symbol':'1.2-2' }}</td>
+
+                                                <td>TOTAL</td>
+                                                <td>{{ total | currency:'HNL':'symbol':'1.2-2' }}</td>
+                                            </tfoot>
+                                        </table>
                                     </td>
                                 </tr>
+
                             </tbody>
                         </table>
-                        <div *ngIf="filtrarCliente().length === 0" style="text-align: center;">
+
+
+
+                        <div *ngIf="filtrarFacturas().length === 0" style="text-align: center;">
                             <img src="../../../assets/img/datanotfound.png" alt="Datos no encontrados"
                                 style="width: 100px; height: 100px;" />
-                            <p>No se encontraron Clientes.</p>
+                            <p>No se encontraron Facturas.</p>
                         </div>
                     </div>
 
@@ -130,4 +170,4 @@
         </div>
     </div>
 </div>
-<!--/MODAL DELETE -->   
+<!--/MODAL DELETE -->

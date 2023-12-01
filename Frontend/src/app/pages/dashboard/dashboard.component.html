@@ -35,32 +35,35 @@
           </div>
           <!--body-->
           <div class="card-body" style="margin-top: 20px">
-            <div class="d-flex flex-wrap blue-border">
-              <div class="col-md-6" *ngFor="let item of areas; let i = index">
-                <div class="card-img-overlay-mod" style="position: relative;">
-                  <img [src]="'assets/img/MAPA/' + item.area_Imagen" class="img-thumbnail-space img-fluid" [style.zIndex]="1" />
-                  <div class="badges-container" style="position: absolute; top: 0; left: 0; margin-top: 120px; margin-left: 200px;">
-                    <span class="badge"
-                          style="margin-left: 55px; float: left; margin-top: 45px;"
-                          *ngFor="let atraccion of atraccionesPorArea[item.area_ID]"
-                          (click)="detailAtraccion(atraccion)"
-
-                          [style.position]="'relative'"
-                          [style.zIndex]="2"                          
-                          
-                          >
-                          <div class="tooltip-container">
-                            <img [src]="atraccion.atra_Imagen" class="custom-image">
-                            <div class="tooltip">
-                              <div class="tooltip-content">{{ atraccion.atra_Nombre }}</div>
-                            </div>
-                          </div>                                                    
-                    </span>
+            <div class="d-flex justify-content-center">
+              <div class="col-md-8">
+                <!-- Agrega el título -->
+                <h3 class="text-center mb-4">Gráfica de Facturas por Tipo de Pago</h3>
+          
+                <div class="card-img-overlay-mod col-12" style="position: relative; height: 400px; width: 100%;">
+                  <div class="badges-container" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                    <ngx-charts-pie-chart
+                      [results]="data"
+                      [doughnut]="true"
+                      [labels]="true"
+                      [explodeSlices]="false"
+                      [view]="[600, 400]"
+                    ></ngx-charts-pie-chart>
                   </div>
-                </div> 
+                </div>
+          
+                <!-- Agrega los textos de porcentajes -->
+                <div class="text-center mt-2">
+                  <p>Porcentaje de Facturas Contado: {{ porcentajeContado.toFixed(2) }}%</p>
+                  <p>Porcentaje de Facturas Crédito: {{ porcentajeCredito.toFixed(2) }}%</p>
+                </div>
               </div>
             </div>
-          </div>                                 
+          </div>
+          
+          
+          
+                                           
         </div>
       </div>
     </div>

@@ -102,6 +102,8 @@ import { ReporteComponent } from './reporte/reporte.component';
 import { ProductosListadoComponent } from './Productos/productos-listado/productos-listado.component';
 import { ClientesListadoComponent } from './Clientes/clientes-listado/clientes-listado.component';
 import { FacturacionListadoComponent } from './Facturacion/facturacion-listado/facturacion-listado.component';
+import { FacturacionCrearComponent } from './Facturacion/facturacion-crear/facturacion-crear.component';
+import { FacturacionEditarComponent } from './Facturacion/facturacion-editar/facturacion-editar.component';
 
 @NgModule({
   declarations: [
@@ -181,7 +183,9 @@ import { FacturacionListadoComponent } from './Facturacion/facturacion-listado/f
     ReporteComponent,
     ProductosListadoComponent,
     ClientesListadoComponent,
-    FacturacionListadoComponent
+    FacturacionListadoComponent,
+    FacturacionCrearComponent,
+    FacturacionEditarComponent
   ],
   imports: [
     BrowserModule,

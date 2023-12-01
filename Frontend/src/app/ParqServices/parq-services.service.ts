@@ -25,6 +25,7 @@ import { Observable, of } from 'rxjs';
 import { temporizadores } from '../Models/Temporizadores';
 import { Productos } from '../Models/Productos';
 import { Cliente } from '../Models/Cliente';
+import { Facturas } from '../Models/Facturas';
 
 @Injectable({
   providedIn: 'root'
@@ -428,6 +429,44 @@ export class ParqServicesService {
     deleteCliente(DeleteCliente: Cliente) : Observable<any> {
       const listadoClientes: Cliente[] = JSON.parse(localStorage.getItem('listadoProductos') || '[]');
       const index = listadoClientes.findIndex(Cliente => Cliente.Id === DeleteCliente.Id);
+    
+      if (index !== -1) {
+        listadoClientes.splice(index, 1);
+    
+        localStorage.setItem('listadoClientes', JSON.stringify(listadoClientes));
+    
+        const response = { code: 200, message: 'Registro Eliminado Exitosamente', data: listadoClientes };
+    
+        return new Observable(observer => {
+          observer.next(response);
+          observer.complete();
+        });
+      } else {
+        const response = { code: 404, message: 'No se encontró el producto para Eliminar', data: null };
+    
+        return new Observable(observer => {
+          observer.error(response);
+        });
+      }
+    }
+
+    
+    getFacturas(): Observable<any[]> {
+      var listado = localStorage.getItem('listadoFacturas');
+    
+      if (listado) {
+        const facturas: Facturas[] = JSON.parse(listado);
+       
+        return of(facturas);
+      } else {
+
+        return of([]);
+      }
+    }
+
+    deleteFactura(DeleteFactura: Facturas) : Observable<any> {
+      const listadoClientes: Cliente[] = JSON.parse(localStorage.getItem('listadoProductos') || '[]');
+      const index = listadoClientes.findIndex(Cliente => Cliente.Id === DeleteFactura.Id);
     
       if (index !== -1) {
         listadoClientes.splice(index, 1);
